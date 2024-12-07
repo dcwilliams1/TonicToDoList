@@ -1,0 +1,37 @@
+﻿@page
+@model TodoApp.Pages.Todo.IndexModel
+@{
+    ViewData["Title"] = "To-Do List";
+}
+
+<div class=container>
+    <div class="row">
+        <div class="col">
+            <h1>To-Do List</h1>
+
+            <form method="post">
+                <input type="hidden" name="__RequestVerificationToken" value="@Html.AntiForgeryToken()" />
+                <input type="text" name="Title" placeholder="New task" class="form_input" required />
+                <input type="text" name="Description" placeholder="Description" class="form_input" required />
+                <input type="text" name="DueDate" placeholder="Due Date (MM/DD/YYYY)" class="form_input" required />
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div class="col"></div>
+        <ul>
+            @foreach (var item in Model.ToDo)
+            {
+                <li>
+                    <form method="post">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="checkbox" name="IsCompleted" value="true" @(item.IsCompleted ? "checked" : "")
+                            onchange="this.form.submit()" />
+                        @item.Title
+                        @item.Description
+                        @item.DueDate
+                    </form>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
