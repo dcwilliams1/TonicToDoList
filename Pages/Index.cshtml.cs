@@ -29,11 +29,18 @@ namespace TodoApp.Pages.Todo
             ToDo = await _context.ToDos.ToListAsync();
         }
 
-        public async Task<IActionResult> OnPostAsync(string? Title, string? Description, string? DueDate, int? Id, bool? IsCompleted)
+        public async Task<IActionResult> OnPostAsync(int? Id, bool? IsCompleted)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            DateTime.TryParse(DueDate, out var dueDate);
             if (!string.IsNullOrEmpty(Title))
             {
-                var newItem = new ToDo { Title = Title, IsCompleted = false };
+                var newItem = new ToDo { Title = Title, IsCompleted = false, Description = Description, DueDate = dueDate };
                 _context.ToDos.Add(newItem);
                 await _context.SaveChangesAsync();
             }
@@ -44,10 +51,21 @@ namespace TodoApp.Pages.Todo
                 {
                     item.IsCompleted = IsCompleted ?? false;
                     item.Description = Description ?? string.Empty;
-                    DateTime.TryParse(DueDate, out var dueDate);
                     item.DueDate = dueDate;
                     await _context.SaveChangesAsync();
                 }
+            }
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            var item = await _context.ToDos.FindAsync(id);
+            if (item != null)
+            {
+                _context.ToDos.Remove(item);
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage();
