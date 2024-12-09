@@ -18,11 +18,11 @@ namespace TodoApp.Pages.Todo
         public List<ToDo> ToDo { get; set; } = new();
 
         [BindProperty]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         [BindProperty]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         [BindProperty]
-        public string DueDate { get; set; }
+        public DateTime DueDate { get; set; } = DateTime.Today;
 
         public async Task OnGetAsync()
         {
@@ -44,7 +44,7 @@ namespace TodoApp.Pages.Todo
                     Title = Title, 
                     IsCompleted = false, 
                     Description = Description,
-                    DueDate = DateTime.TryParse(DueDate, out var parsedDate) ? parsedDate : (DateTime?)null,
+                    DueDate = DateTime.TryParse(DueDate.ToString(), out var parsedDate) ? parsedDate : (DateTime?)null,
                     };
                 _context.ToDos.Add(newItem);
                 await _context.SaveChangesAsync();

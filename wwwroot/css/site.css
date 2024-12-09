@@ -25,7 +25,25 @@ body {
   margin-bottom: 60px;
 }
 
+li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
 .form_input {
   display: block;
   margin-bottom: 5px;
 }
+
+form div {
+    margin-bottom: 10px; /* Add space between rows */
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+

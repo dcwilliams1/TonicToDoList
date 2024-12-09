@@ -4,36 +4,53 @@
     ViewData["Title"] = "To-Do List";
 }
 
-<div class=container>
-    <div class="row">
-        <div class="col">
-            <h1>To-Do List</h1>
 
-            <form method="post">
-                @Html.AntiForgeryToken()
-                <input type="text" asp-for="Title" placeholder="New task" class="form_input" required />
-                <input type="text" asp-for="Description" placeholder="Description" class="form_input" required />
-                <input type="date" asp-for="DueDate" placeholder="Due Date (MM/DD/YYYY)" class="form_input" required />
-                <button type="submit">Add</button>
-            </form>
-        </div>
-        <div class="col"></div>
+<div class="row">
+    <div class="col">
+        <h1>To-Do List</h1>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <input type="text" asp-for="Title" placeholder="New task" class="form_input" required />
+            <input type="text" asp-for="Description" placeholder="Description" class="form_input" required />
+            <input type="date" asp-for="DueDate" placeholder="Due Date (MM/DD/YYYY)" class="form_input" required />
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <div class="col">
         <ul>
             @foreach (var item in Model.ToDo)
             {
-                <li>
-                    <form method="post" asp-page-handler="Update">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="checkbox" name="IsCompleted" value="true" @(item.IsCompleted ? "checked" : "")
-                            onchange="this.form.submit()" />
-                        @item.Title
-                        @item.Description
-                        @item.DueDate
-                    </form>
-                    <form method="post" asp-page-handler="Delete">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <button type="submit">X</button>
-                    </form>
+                <li class="container">
+                    <div class="row">
+                        <form method="post" asp-page-handler="Update">
+                            <div>
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <label for="IsCompleted">Mark as completed:</label>
+                                <input type="checkbox" name="IsCompleted" value="true" @(item.IsCompleted ? "checked" : "")
+                                       onchange="this.form.submit()" />
+                            </div>
+                            <div>
+                                <span>Title:</span>
+                                @item.Title
+                            </div>
+                            <div>
+                                <span>Description:</span>
+                                @item.Description
+                            </div>
+                            <div>
+                                <span>Due Date:</span>
+                                @(item.DueDate.HasValue ? item.DueDate.Value.ToShortDateString() : "No Due Date")
+                            </div>
+                        </form>
+
+                        <div class="delete_button">
+                            <form method="post" asp-page-handler="Delete">
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <button type="submit">X</button>
+                            </form>
+                        </div>
+                    </div>
                 </li>
             }
         </ul>
