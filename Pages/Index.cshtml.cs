@@ -64,29 +64,20 @@ namespace TodoApp.Pages.Todo
             return RedirectToPage();
         }
 
-        public IActionResult OnPostUpdate(int id, bool isCompleted)
+        public async Task<IActionResult> OnPostUpdate(int id, bool isCompleted)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page(); // Redisplay the page with validation errors
-            }
-
             // Update the to-do item based on the ID and completion status
-            var item = ToDo.FirstOrDefault(x => x.Id == id);
+            var item = _context.ToDos.FirstOrDefault(x => x.Id == id);
             if (item != null)
             {
                 item.IsCompleted = isCompleted;
             }
+            await _context.SaveChangesAsync();
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page(); // Redisplay the page with validation errors
-            }
-
             var item = await _context.ToDos.FindAsync(id);
             if (item != null)
             {
