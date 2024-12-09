@@ -11,9 +11,9 @@
 
             <form method="post">
                 @Html.AntiForgeryToken()
-                <input type="text" name="Title" placeholder="New task" class="form_input" required />
-                <input type="text" name="Description" placeholder="Description" class="form_input" required />
-                <input type="text" name="DueDate" placeholder="Due Date (MM/DD/YYYY)" class="form_input" required />
+                <input type="text" asp-for="Title" placeholder="New task" class="form_input" required />
+                <input type="text" asp-for="Description" placeholder="Description" class="form_input" required />
+                <input type="date" asp-for="DueDate" placeholder="Due Date (MM/DD/YYYY)" class="form_input" required />
                 <button type="submit">Add</button>
             </form>
         </div>
@@ -22,7 +22,7 @@
             @foreach (var item in Model.ToDo)
             {
                 <li>
-                    <form method="post">
+                    <form method="post" asp-page-handler="Update">
                         <input type="hidden" name="Id" value="@item.Id" />
                         <input type="checkbox" name="IsCompleted" value="true" @(item.IsCompleted ? "checked" : "")
                             onchange="this.form.submit()" />

@@ -15,8 +15,8 @@ namespace TodoApp.Pages.Todo
             _context = context;
         }
 
-        [BindProperty]
         public List<ToDo> ToDo { get; set; } = new();
+
         [BindProperty]
         public string Title { get; set; }
         [BindProperty]
@@ -26,7 +26,7 @@ namespace TodoApp.Pages.Todo
 
         public async Task OnGetAsync()
         {
-            ToDo = await _context.ToDos.ToListAsync();
+           ToDo = await _context.ToDos.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync(int? Id, bool? IsCompleted)
@@ -37,14 +37,19 @@ namespace TodoApp.Pages.Todo
                 return Page();
             }
 
-            DateTime.TryParse(DueDate, out var dueDate);
+            
             if (!string.IsNullOrEmpty(Title))
             {
-                var newItem = new ToDo { Title = Title, IsCompleted = false, Description = Description, DueDate = dueDate };
+                var newItem = new ToDo { 
+                    Title = Title, 
+                    IsCompleted = false, 
+                    Description = Description,
+                    DueDate = DateTime.TryParse(DueDate, out var parsedDate) ? parsedDate : (DateTime?)null,
+                    };
                 _context.ToDos.Add(newItem);
                 await _context.SaveChangesAsync();
             }
-            else if (Id.HasValue)
+            /* else if (Id.HasValue)
             {
                 var item = await _context.ToDos.FindAsync(Id.Value);
                 if (item != null)
@@ -54,13 +59,34 @@ namespace TodoApp.Pages.Todo
                     item.DueDate = dueDate;
                     await _context.SaveChangesAsync();
                 }
+            } */
+
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostUpdate(int id, bool isCompleted)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page(); // Redisplay the page with validation errors
             }
 
+            // Update the to-do item based on the ID and completion status
+            var item = ToDo.FirstOrDefault(x => x.Id == id);
+            if (item != null)
+            {
+                item.IsCompleted = isCompleted;
+            }
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return Page(); // Redisplay the page with validation errors
+            }
+
             var item = await _context.ToDos.FindAsync(id);
             if (item != null)
             {
