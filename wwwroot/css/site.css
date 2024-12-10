@@ -26,7 +26,7 @@ body {
 }
 
 li {
-    display: flex;
+    display: inline-block;
     align-items: center;
     gap: 10px;
     margin-bottom: 25px;
@@ -45,5 +45,20 @@ label {
     font-weight: bold;
     margin-right: 5px;
 }
+
+.submit_button {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+
 
 
