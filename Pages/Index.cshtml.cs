@@ -97,8 +97,9 @@ namespace TodoApp.Pages.Todo
                 item.Title = Title;
                 item.Description = Description;
                 item.DueDate = DueDate;
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+            
             return RedirectToPage();
         }
 

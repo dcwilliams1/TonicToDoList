@@ -8,13 +8,16 @@ function toggleEditingVisible(itemID) {
     if (editForm.css('display') == 'none' || editForm.css('visiblity') == 'hidden') {
         $('#EditForm-' + itemID.toString()).show();
         $('#DisplayForm-' + itemID.toString()).hide();
-        $('#btnEditCancel-' + itemID).text("Cancel");
+        $('#btnEditCancel-' + itemID).text("Cancel Editing");
         $('#btnSubmit-' + itemID).show();
+        $('#btnDelete-' + itemID).hide();
+
     } else {
         $('#EditForm-' + itemID.toString()).hide();
         $('#DisplayForm-' + itemID.toString()).show();
         $('#btnEditCancel-' + itemID).text("Edit");
         $('#btnSubmit-' + itemID).hide();
+        $('#btnDelete-' + itemID).show();
     }
 }
 

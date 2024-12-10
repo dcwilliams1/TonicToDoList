@@ -26,7 +26,7 @@ body {
 }
 
 li {
-    display: flex;
+    display: inline-block;
     align-items: center;
     gap: 10px;
     margin-bottom: 25px;
@@ -52,11 +52,13 @@ label {
 }
 
 .show {
-    display: flex;
+    display: block;
 }
 
 .hide {
     display: none;
 }
+
+
 
 

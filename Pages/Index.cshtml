@@ -23,45 +23,55 @@
             {
                 <li class="container">
                     <div class="row">
-                        <form method="post" asp-page-handler="UpdateCompleted" id="DisplayForm-@item.Id" class="show">
-                            <div>
+                        <form method="post" asp-page-handler="UpdateCompleted" id="DisplayForm-@item.Id" class="show form_input">
+                            
+                            <div class="form_input">
+                                <label asp-for="Title">Title:</label>
+                                @item.Title
+                            </div>
+                            <div class="form_input">
+                                <label asp-for="Description">Description:</label>
+                                @item.Description
+                            </div>
+                            <div class="form_input">
+                                <label asp-for="DueDate">Due Date:</label>
+                                @(item.DueDate.HasValue ? item.DueDate.Value.ToShortDateString() : "No Due Date")
+                            </div>
+                            <div class="form_input">
                                 <input type="hidden" name="Id" value="@item.Id" />
                                 <label for="IsCompleted">Mark as completed:</label>
                                 <input type="checkbox" name="IsCompleted" value="true" @(item.IsCompleted ? "checked" : "")
                                        onchange="this.form.submit()" />
                             </div>
-                            <div>
-                                <span>Title:</span>
-                                @item.Title
-                            </div>
-                            <div>
-                                <span>Description:</span>
-                                @item.Description
-                            </div>
-                            <div>
-                                <span>Due Date:</span>
-                                @(item.DueDate.HasValue ? item.DueDate.Value.ToShortDateString() : "No Due Date")
-                            </div>
+                        </form>
+                        <form method="post" asp-page-handler="Delete" class="submit_button">
+                            <input type="hidden" name="Id" value="@item.Id" />
+                            <button type="submit" id="btnDelete-@item.Id">Delete</button>
                         </form>
                         <form method="post" asp-page-handler="UpdateDetails" id="EditForm-@item.Id" class="hide">
+                            <div class="form_input">
+                            <input type="hidden" name="Id" value="@item.Id" />
                             <label asp-for="Title"></label>
                             <input asp-for="Title" value="@item.Title" />
+                            </div>
+                            <div class="form_input">
                             <span asp-validation-for="Title"></span>
                             <label asp-for="Description"></label>
                             <input asp-for="Description" value="@item.Description" />
                             <span asp-validation-for="Description"></span>
+                            </div>
+                            <div class="form_input">
                             <label asp-for="DueDate"></label>
-                            <input asp-for="DueDate" value="@(item.DueDate.HasValue ? item.DueDate.Value : DateTime.Today)"  />
+                            <input type="date" asp-for="DueDate" value="@(item.DueDate.HasValue ? item.DueDate.Value.ToShortDateString() : DateTime.Today)"  />
                             <span asp-validation-for="DueDate"></span>
+                            </div>
+                            <button type="submit" id="btnSubmit-@item.Id" onchange="this.form.submit()" class="hide submit_button">Submit</button>
                         </form>
                         <div>
-                            <form method="post" asp-page-handler="Delete" class="submit_button">
-                                <input type="hidden" name="Id" value="@item.Id" />
-                                <button type="submit">X</button>
-                            </form>
+                            
 
                             <button type="submit" id="btnEditCancel-@item.Id" onclick="toggleEditingVisible('@item.Id'); toggleEditMode();">Edit</button>
-                            <button type="submit" id="btnSubmit-@item.Id" onchange="this.form.submit()" class="hide">Submit</button>
+                            
                         </div>
                     </div>
                 </li>
