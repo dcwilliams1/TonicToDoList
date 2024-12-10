@@ -46,4 +46,17 @@ label {
     margin-right: 5px;
 }
 
+.submit_button {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.show {
+    display: flex;
+}
+
+.hide {
+    display: none;
+}
+
 

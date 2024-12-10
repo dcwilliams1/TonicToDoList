@@ -23,7 +23,7 @@
             {
                 <li class="container">
                     <div class="row">
-                        <form method="post" asp-page-handler="Update">
+                        <form method="post" asp-page-handler="UpdateCompleted" id="DisplayForm-@item.Id" class="show">
                             <div>
                                 <input type="hidden" name="Id" value="@item.Id" />
                                 <label for="IsCompleted">Mark as completed:</label>
@@ -43,12 +43,25 @@
                                 @(item.DueDate.HasValue ? item.DueDate.Value.ToShortDateString() : "No Due Date")
                             </div>
                         </form>
-
-                        <div class="delete_button">
-                            <form method="post" asp-page-handler="Delete">
+                        <form method="post" asp-page-handler="UpdateDetails" id="EditForm-@item.Id" class="hide">
+                            <label asp-for="Title"></label>
+                            <input asp-for="Title" value="@item.Title" />
+                            <span asp-validation-for="Title"></span>
+                            <label asp-for="Description"></label>
+                            <input asp-for="Description" value="@item.Description" />
+                            <span asp-validation-for="Description"></span>
+                            <label asp-for="DueDate"></label>
+                            <input asp-for="DueDate" value="@(item.DueDate.HasValue ? item.DueDate.Value : DateTime.Today)"  />
+                            <span asp-validation-for="DueDate"></span>
+                        </form>
+                        <div>
+                            <form method="post" asp-page-handler="Delete" class="submit_button">
                                 <input type="hidden" name="Id" value="@item.Id" />
                                 <button type="submit">X</button>
                             </form>
+
+                            <button type="submit" id="btnEditCancel-@item.Id" onclick="toggleEditingVisible('@item.Id'); toggleEditMode();">Edit</button>
+                            <button type="submit" id="btnSubmit-@item.Id" onchange="this.form.submit()" class="hide">Submit</button>
                         </div>
                     </div>
                 </li>
